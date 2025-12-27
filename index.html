@@ -3,103 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Protocol Poker</title>
+    <title>Story Poker Table</title>
 
     <meta property="og:title" content="♠️ Story Protocol Poker Night">
-    <meta property="og:description" content="Click below to join the table! Win IP rewards & have fun.">
-    <meta property="og:image" content="https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ25uNHZ6bnZ6bnZ6bnZ6bnZ6bnZ6bnZ6bnZ6bnZ6bnZ6bnZ6bnZ6/26gR0l63J5M0Xj7wY/giphy.gif">
-    <meta name="theme-color" content="#FF0000"> <meta property="twitter:card" content="summary_large_image">
+    <meta property="og:description" content="Click to Join the Table! Win IP Rewards. ALL IN!">
+    
+    <meta property="og:image" content="https://media.giphy.com/media/TyJdks7SIAcac2QWM2/giphy.gif">
+    
+    <meta name="theme-color" content="#FF4757">
+    <meta property="twitter:card" content="summary_large_image">
 
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Courier New', Courier, monospace; background: #0f0f0f; color: #e0e0e0; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
-        .container { text-align: center; width: 90%; max-width: 400px; }
+        /* === MODERN CSS DESIGN === */
+        :root {
+            --bg-color: #0F172A;
+            --card-bg: #1E293B;
+            --primary: #FF4757;
+            --primary-hover: #FF6B81;
+            --text-main: #F1F5F9;
+            --text-muted: #94A3B8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        /* Modern Card Style */
+        .admin-box {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        h2 { font-weight: 700; margin-top: 0; margin-bottom: 8px; font-size: 24px; }
+        p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; }
+
+        /* Input Field */
+        input {
+            width: 100%;
+            padding: 14px;
+            background: #0F172A;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 12px;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.2s;
+            margin-bottom: 15px;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.2); }
+
+        /* Generate Button */
+        .btn-main {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), #D63031);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn-main:active { transform: scale(0.98); }
+
+        /* Result & Copy Section */
+        .result-area {
+            margin-top: 20px;
+            background: #0F172A;
+            border: 1px dashed #334155;
+            border-radius: 12px;
+            padding: 15px;
+            display: none; /* Initially hidden */
+            animation: fadeIn 0.3s ease;
+        }
         
-        /* ADMIN PANEL */
-        .admin-box { background: #1a1a1a; padding: 25px; border: 2px solid #d32f2f; border-radius: 10px; box-shadow: 0 0 20px rgba(211, 47, 47, 0.2); }
-        input { width: 100%; padding: 12px; margin: 15px 0; background: #000; border: 1px solid #444; color: #fff; border-radius: 5px; box-sizing: border-box; font-family: inherit;}
-        input:focus { outline: none; border-color: #d32f2f; }
-        button { width: 100%; padding: 15px; background: linear-gradient(45deg, #d32f2f, #b71c1c); color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; transition: 0.3s; }
-        button:hover { opacity: 0.9; transform: scale(1.02); }
-        
-        /* LOADING SCREEN */
-        .loader { display: none; }
-        .spinner { border: 5px solid #333; border-top: 5px solid #d32f2f; border-radius: 50%; width: 50px; height: 50px; animation: spin 0.8s linear infinite; margin: 0 auto 25px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .status-text { font-size: 18px; font-weight: bold; letter-spacing: 1px; }
-        
+        .link-text {
+            font-size: 13px;
+            color: var(--primary);
+            word-break: break-all;
+            margin-bottom: 10px;
+            display: block;
+            font-family: monospace;
+        }
+
+        .btn-copy {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .btn-copy:hover { background: #475569; }
+
+        /* Loading Animation */
+        .loader-container { display: none; }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 15px;
+        }
+
         .hidden { display: none !important; }
-        .result-link { margin-top: 20px; background: #000; padding: 15px; font-size: 14px; word-break: break-all; color: #00e5ff; border: 1px dashed #d32f2f; border-radius: 5px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 
     <script>
         window.onload = function() {
-            // ১. চেক করা হচ্ছে লিংকে কোনো গেম কোড আছে কিনা (# এর পর)
-            const hash = window.location.hash.substring(1); // e.g., story-poker-284-xxxx
+            // === FAST REDIRECT LOGIC (0.1s delay) ===
+            const hash = window.location.hash.substring(1); 
 
             if (hash) {
-                // === PLAYER VIEW === (যদি কোড থাকে)
+                // Player View
                 document.getElementById('adminPanel').classList.add('hidden');
                 document.getElementById('loadingScreen').style.display = 'block';
                 
-                // আসল লিংক তৈরি করা হচ্ছে
                 const realLink = "https://www.pokernow.club/mtt/" + hash;
                 
-                // ১.৫ সেকেন্ড পর ইউজারকে রিডাইরেক্ট করা হবে
+                // Redirect time reduced to 100ms (Super Fast)
                 setTimeout(() => {
-                    window.location.replace(realLink); // replace ব্যবহার করা ভালো
-                }, 1500);
+                    window.location.replace(realLink);
+                }, 100); 
             } else {
-                // === ADMIN VIEW === (যদি কোড না থাকে)
+                // Admin View
                 document.getElementById('adminPanel').classList.remove('hidden');
-                document.getElementById('loadingScreen').style.display = 'none';
             }
         };
 
-        // লিংক জেনারেট করার ফাংশন
-        function generateCleanLink() {
+        function generateLink() {
             const rawInput = document.getElementById('pokerLink').value.trim();
-            
-            // ইনপুট থেকে শুধু শেষের কোডটুকু আলাদা করা
             let gameCode = "";
+
             if (rawInput.includes("/mtt/")) {
                 gameCode = rawInput.split("/mtt/")[1];
-            } else if (rawInput.length > 10 && !rawInput.includes("http")) {
-                gameCode = rawInput; // যদি কেউ শুধু কোড পেস্ট করে
+            } else if (rawInput.length > 5 && !rawInput.includes("http")) {
+                gameCode = rawInput;
             }
 
             if (!gameCode) { 
-                alert("❌ Invalid Link! Please paste the full PokerNow link."); return; 
+                alert("Please paste a valid PokerNow link!"); return; 
             }
 
-            // ক্লিন লিংক তৈরি
             const cleanLink = window.location.origin + "/#" + gameCode;
+            
+            // Show result
+            const resultBox = document.getElementById('resultArea');
+            const linkText = document.getElementById('generatedLink');
+            
+            resultBox.style.display = 'block';
+            linkText.innerText = cleanLink;
+        }
 
-            // রেজাল্ট দেখানো
-            const resultDiv = document.getElementById('result');
-            resultDiv.classList.remove('hidden');
-            resultDiv.innerHTML = "<b style='color: #d32f2f;'>✅ Copy for Discord:</b><br><br>" + cleanLink;
+        function copyLink() {
+            const linkText = document.getElementById('generatedLink').innerText;
+            
+            navigator.clipboard.writeText(linkText).then(() => {
+                const btn = document.getElementById('copyBtn');
+                
+                // Change button text to indicate success
+                btn.innerText = "✅ COPIED!";
+                btn.style.background = "#10B981"; // Green color
+                
+                setTimeout(() => {
+                    btn.innerText = "Copy Link";
+                    btn.style.background = "#334155";
+                }, 2000);
+            });
         }
     </script>
 </head>
 <body>
 
     <div class="container">
-        <div id="loadingScreen" class="loader">
+        <div id="loadingScreen" class="loader-container">
             <div class="spinner"></div>
-            <p class="status-text">Connecting to Table...</p>
-            <p style="font-size: 12px; color: #666;">Don't close this window.</p>
+            <p>Connecting to Table...</p>
         </div>
 
         <div id="adminPanel" class="admin-box hidden">
-            <h2 style="margin-top: 0; color: #d32f2f;">♠️ Table Manager</h2>
-            <p style="font-size: 14px; color: #aaa;">Paste today's PokerNow link below:</p>
-            <input type="text" id="pokerLink" placeholder="https://www.pokernow.club/mtt/...">
-            <button onclick="generateCleanLink()">CREATE SHARE LINK</button>
+            <h2>♠️ Table Manager</h2>
+            <p>Paste today's PokerNow link to generate a magic invite.</p>
             
-            <div id="result" class="result-link hidden"></div>
+            <input type="text" id="pokerLink" placeholder="https://www.pokernow.club/mtt/...">
+            <button class="btn-main" onclick="generateLink()">⚡ GENERATE LINK</button>
+            
+            <div id="resultArea" class="result-area">
+                <span id="generatedLink" class="link-text"></span>
+                <button id="copyBtn" class="btn-copy" onclick="copyLink()">Copy Link</button>
+            </div>
         </div>
     </div>
 
 </body>
 </html>
+
