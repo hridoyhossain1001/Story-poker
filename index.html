@@ -3,65 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Poker</title>
+    <title>Story Poker Portal</title>
 
-    <meta property="og:title" content="♠️ Story Protocol Poker Night">
-    <meta property="og:description" content="Click to Join the Table! Win IP Rewards. ALL IN!">
+    <meta property="og:site_name" content="Story Protocol Family">
+
+    <meta property="og:title" content="🔥 Daily Poker of Story Family 🃏">
+
+    <meta property="og:description" content="💰 Top 5 Rewards in XP:&#10;🥇 1st: 1000 XP:&#10; 🥈 2nd: 800 XP&#10;🥉 3rd: 600 XP:&#10; 🏅 4th-5th: 400 XP&#10;👇 Click image to join the table!">
+
     <meta property="og:image" content="https://media.giphy.com/media/TyJdks7SIAcac2QWM2/giphy.gif">
-    <meta name="theme-color" content="#FF4757">
+    
+    <meta name="theme-color" content="#E11D48">
     <meta property="twitter:card" content="summary_large_image">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
     <style>
-        /* === STYLE === */
-        :root { --bg: #0F172A; --card: #1E293B; --primary: #FF4757; --text: #F1F5F9; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        :root {
+            --primary: #E11D48;
+            --bg-dark: #000000;
+            --glass: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top, #2e0915 0%, #000000 80%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .admin-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            padding: 40px 30px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            display: none; 
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        h2 { font-weight: 800; font-size: 24px; margin: 0 0 5px 0; }
+        p { color: #aaa; font-size: 13px; margin-bottom: 25px; }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 14px;
+            box-sizing: border-box;
+            outline: none;
+            text-align: center;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.25); }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-gen { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4); }
+        .btn-gen:active { transform: scale(0.97); }
+
+        .btn-copy { 
+            background: #10B981; 
+            color: white; 
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .result-area { margin-top: 20px; display: none; }
+        .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.6s linear infinite; }
         
-        /* ADMIN PANEL STYLE */
-        .admin-box { background: var(--card); padding: 30px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center; border: 1px solid rgba(255,255,255,0.1); display: none; }
-        input { width: 100%; padding: 14px; background: #0F172A; border: 1px solid #334155; color: white; border-radius: 12px; margin-bottom: 15px; box-sizing: border-box; outline: none; }
-        button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        
-        /* RESULT BOX */
-        .result-area { margin-top: 15px; background: #0F172A; padding: 10px; border-radius: 8px; display: none; }
-        .link-text { font-size: 12px; color: var(--primary); word-break: break-all; font-family: monospace; display: block; margin-bottom: 10px;}
-        
-        /* LOADING SPINNER (Minimalist) */
-        .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     </style>
 
     <script>
-        // পেইজ লোড হওয়ার আগেই চেক করবে (Super Fast)
+        // সুপার ফাস্ট রিডাইরেক্ট লজিক
         (function() {
             const hash = window.location.hash.substring(1);
             if (hash) {
-                // কোড পেলে সাথে সাথে রিডাইরেক্ট (কোনো দেরি ছাড়া)
                 window.location.replace("https://www.pokernow.club/mtt/" + hash);
             } else {
-                // কোড না পেলে অ্যাডমিন প্যানেল দেখাবে (একটু পরে)
                 window.onload = function() {
-                    document.querySelector('.admin-box').style.display = 'block';
                     document.getElementById('loading').style.display = 'none';
+                    document.querySelector('.admin-card').style.display = 'block';
                 }
             }
         })();
 
-        // লিংক জেনারেটর ফাংশন
         function generateLink() {
             const raw = document.getElementById('pokerLink').value;
             let code = raw.includes("/mtt/") ? raw.split("/mtt/")[1] : raw;
-            if(!code || code.length < 5) { alert("Invalid Link"); return; }
             
-            const link = window.location.origin + "/#" + code;
+            if(!code || code.length < 5) { alert("⚠️ Invalid Link!"); return; }
+            
+            const finalLink = window.location.origin + "/#" + code;
+            document.getElementById('hiddenLink').innerText = finalLink;
+            document.getElementById('genBtn').style.display = 'none';
             document.querySelector('.result-area').style.display = 'block';
-            document.getElementById('genLink').innerText = link;
         }
 
-        function copyLink() {
-            navigator.clipboard.writeText(document.getElementById('genLink').innerText);
-            document.getElementById('copyBtn').innerText = "✅ COPIED";
+        function copyToClipboard() {
+            const linkText = document.getElementById('hiddenLink').innerText;
+            navigator.clipboard.writeText(linkText).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerHTML = "✅ COPIED FOR DISCORD!";
+                btn.style.background = "#059669";
+                setTimeout(() => {
+                    btn.innerHTML = "📋 Copy Again";
+                    btn.style.background = "#10B981"; 
+                }, 2000);
+            });
         }
     </script>
 </head>
@@ -69,13 +144,20 @@
 
     <div id="loading"><div class="spinner"></div></div>
 
-    <div class="admin-box">
-        <h2 style="margin-top:0;">♠️ Table Manager</h2>
+    <div class="admin-card">
+        <h2>♠️ Table Manager</h2>
+        <p>Create magic links for Story Protocol</p>
+        
         <input type="text" id="pokerLink" placeholder="Paste PokerNow Link...">
-        <button onclick="generateLink()">GENERATE LINK</button>
+        
+        <button id="genBtn" class="btn-gen" onclick="generateLink()">✨ GENERATE LINK</button>
+        
         <div class="result-area">
-            <span id="genLink" class="link-text"></span>
-            <button id="copyBtn" onclick="copyLink()" style="background:#334155; padding:5px 10px; font-size:12px;">Copy</button>
+            <span id="hiddenLink" style="display:none;"></span>
+            <button id="copyBtn" class="btn-copy" onclick="copyToClipboard()">
+                📋 COPY DISCORD LINK
+            </button>
+            <p style="margin: 15px 0 0 0; font-size: 11px; opacity: 0.6;">Ready to share in #poker-night</p>
         </div>
     </div>
 
